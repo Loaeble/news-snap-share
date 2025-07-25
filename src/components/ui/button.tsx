@@ -5,20 +5,20 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-smooth focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 touch-target",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "gradient-primary text-primary-foreground hover:shadow-glow transform hover:scale-[1.02] active:scale-[0.98]",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 hover:shadow-md",
-        outline: "border border-input bg-card hover:bg-accent hover:text-accent-foreground hover:shadow-sm",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:shadow-sm",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        default: "bg-gradient-primary text-primary-foreground hover:scale-105 hover:shadow-elegant active:scale-95 transition-all duration-200",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:scale-105 hover:shadow-md active:scale-95 transition-all duration-200",
+        outline:
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground hover:scale-105 hover:shadow-card active:scale-95 transition-all duration-200",
+        secondary:
+          "bg-gradient-accent text-secondary-foreground hover:scale-105 hover:shadow-card active:scale-95 transition-all duration-200",
+        ghost: "hover:bg-accent hover:text-accent-foreground hover:scale-105 active:scale-95 transition-all duration-200",
         link: "text-primary underline-offset-4 hover:underline",
-        accent: "gradient-accent text-accent-foreground hover:shadow-glow transform hover:scale-[1.02] active:scale-[0.98]",
-        news: "gradient-news text-primary-foreground hover:shadow-glow transform hover:scale-[1.02] active:scale-[0.98]",
-        success: "bg-success text-success-foreground hover:bg-success/90 hover:shadow-md",
-        warning: "bg-warning text-warning-foreground hover:bg-warning/90 hover:shadow-md",
+        premium: "bg-gradient-success text-success-foreground hover:scale-105 hover:shadow-glow active:scale-95 transition-all duration-200 animate-pulse-glow",
       },
       size: {
         default: "h-12 px-6 py-3",

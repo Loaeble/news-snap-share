@@ -124,7 +124,7 @@ export const ScrapingControl = ({ controller, settings, onSettingsClick }: Scrap
               Continuous background news collection
             </CardDescription>
           </div>
-          <Badge variant="secondary" className={`${getStatusColor()} text-white`}>
+          <Badge variant="secondary" className={`${getStatusColor()} text-white animate-pulse-glow`}>
             {getStatusText()}
           </Badge>
         </div>
