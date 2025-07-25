@@ -2,41 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* NewsGen Mobile App Design System - Modern News & Content Creation Theme */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Core brand colors - News focused with tech accent */
+    --background: 255 255 255;
+    --foreground: 10 10% 5%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 0 0% 98%;
+    --card-foreground: 10 10% 5%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 10 10% 5%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Modern news blue with energy */
+    --primary: 210 85% 45%;
+    --primary-foreground: 0 0% 98%;
+    --primary-glow: 210 95% 65%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Clean grey for content */
+    --secondary: 210 20% 96%;
+    --secondary-foreground: 210 15% 20%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted - Subtle content backgrounds */
+    --muted: 210 25% 95%;
+    --muted-foreground: 210 10% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent - Vibrant for CTAs and highlights */
+    --accent: 35 100% 50%;
+    --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Status colors */
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 98%;
+    --success: 145 70% 45%;
+    --success-foreground: 0 0% 98%;
+    --warning: 25 90% 55%;
+    --warning-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Interface elements */
+    --border: 210 20% 90%;
+    --input: 210 25% 96%;
+    --ring: 210 85% 45%;
 
-    --radius: 0.5rem;
+    /* News-specific colors */
+    --breaking-news: 0 85% 55%;
+    --trending: 280 85% 55%;
+    --verified: 145 85% 45%;
+
+    /* Gradients for modern mobile feel */
+    --gradient-primary: linear-gradient(135deg, hsl(210 85% 45%), hsl(210 95% 65%));
+    --gradient-accent: linear-gradient(135deg, hsl(35 100% 50%), hsl(45 100% 60%));
+    --gradient-surface: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 25% 98%));
+    --gradient-news: linear-gradient(135deg, hsl(210 85% 45%), hsl(280 85% 55%));
+
+    /* Shadows for depth */
+    --shadow-sm: 0 2px 4px hsl(210 25% 15% / 0.05);
+    --shadow-md: 0 4px 12px hsl(210 25% 15% / 0.1);
+    --shadow-lg: 0 8px 24px hsl(210 25% 15% / 0.15);
+    --shadow-glow: 0 0 20px hsl(210 85% 45% / 0.3);
+
+    /* Animation and transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --radius: 0.75rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -56,33 +87,62 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Dark mode - Premium news app aesthetic */
+    --background: 210 25% 5%;
+    --foreground: 210 20% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 210 25% 7%;
+    --card-foreground: 210 20% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 210 25% 6%;
+    --popover-foreground: 210 20% 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    /* Primary remains bright for contrast */
+    --primary: 210 95% 65%;
+    --primary-foreground: 210 25% 5%;
+    --primary-glow: 210 100% 75%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    /* Secondary - Dark content areas */
+    --secondary: 210 25% 12%;
+    --secondary-foreground: 210 20% 85%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    /* Muted - Subtle dark backgrounds */
+    --muted: 210 25% 10%;
+    --muted-foreground: 210 15% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    /* Accent - Bright orange for dark mode */
+    --accent: 35 100% 60%;
+    --accent-foreground: 210 25% 5%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    /* Status colors for dark */
+    --destructive: 0 85% 65%;
+    --destructive-foreground: 210 25% 5%;
+    --success: 145 75% 55%;
+    --success-foreground: 210 25% 5%;
+    --warning: 25 95% 65%;
+    --warning-foreground: 210 25% 5%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    /* Interface elements */
+    --border: 210 25% 15%;
+    --input: 210 25% 12%;
+    --ring: 210 95% 65%;
+
+    /* News colors for dark mode */
+    --breaking-news: 0 90% 65%;
+    --trending: 280 90% 65%;
+    --verified: 145 90% 55%;
+
+    /* Dark mode gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(210 85% 55%), hsl(210 95% 75%));
+    --gradient-accent: linear-gradient(135deg, hsl(35 100% 60%), hsl(45 100% 70%));
+    --gradient-surface: linear-gradient(180deg, hsl(210 25% 5%), hsl(210 25% 8%));
+    --gradient-news: linear-gradient(135deg, hsl(210 85% 55%), hsl(280 85% 65%));
+
+    /* Enhanced shadows for dark mode */
+    --shadow-sm: 0 2px 4px hsl(0 0% 0% / 0.3);
+    --shadow-md: 0 4px 12px hsl(0 0% 0% / 0.4);
+    --shadow-lg: 0 8px 24px hsl(0 0% 0% / 0.5);
+    --shadow-glow: 0 0 20px hsl(210 95% 65% / 0.4);
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -100,6 +160,79 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Mobile-first responsive typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold leading-tight;
+  }
+
+  /* Smooth scrolling for mobile */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar for webkit browsers */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground;
+  }
+}
+
+@layer components {
+  /* News-specific utility classes */
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-accent {
+    background: var(--gradient-accent);
+  }
+
+  .gradient-news {
+    background: var(--gradient-news);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .transition-bounce {
+    transition: var(--transition-bounce);
+  }
+
+  /* Mobile touch targets */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  /* News status indicators */
+  .breaking-news {
+    @apply text-red-500 dark:text-red-400;
+  }
+
+  .trending {
+    @apply text-purple-500 dark:text-purple-400;
+  }
+
+  .verified {
+    @apply text-green-500 dark:text-green-400;
   }
 }
