@@ -4,18 +4,34 @@ import { StorageSettings } from '@/types/news';
 export class FilePathManager {
   private currentPath: string = '';
   private isInitialized: boolean = false;
+  private readonly STORAGE_KEY = 'newsgen_storage_path';
 
   async initialize(): Promise<StorageSettings> {
     try {
-      // Try to get the default Documents directory
-      const defaultPath = await this.getDefaultPath();
+      // First, try to load saved path from storage
+      const savedPath = await this.loadSavedPath();
       
-      // Check if path is valid and writable
+      if (savedPath) {
+        const savedSettings = await this.validatePath(savedPath);
+        if (savedSettings.isValid) {
+          this.currentPath = savedPath;
+          this.isInitialized = true;
+          console.log('FilePathManager initialized with saved path:', savedPath);
+          return savedSettings;
+        } else {
+          console.log('Saved path is no longer valid, falling back to default');
+          await this.clearSavedPath();
+        }
+      }
+      
+      // Fallback to default path
+      const defaultPath = await this.getDefaultPath();
       const storageSettings = await this.validatePath(defaultPath);
       
       if (storageSettings.isValid) {
         this.currentPath = defaultPath;
         this.isInitialized = true;
+        await this.savePath(defaultPath);
         console.log('FilePathManager initialized with default path:', defaultPath);
       }
 
@@ -121,10 +137,46 @@ export class FilePathManager {
     
     if (storageSettings.isValid) {
       this.currentPath = customPath;
-      console.log('Custom path set:', customPath);
+      await this.savePath(customPath);
+      console.log('Custom path set and saved:', customPath);
     }
 
     return storageSettings;
+  }
+
+  private async savePath(path: string): Promise<void> {
+    try {
+      // In a real mobile app, this would use SharedPreferences (Android) or UserDefaults (iOS)
+      // For now, we'll use localStorage as a fallback
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.setItem(this.STORAGE_KEY, path);
+      }
+    } catch (error) {
+      console.error('Failed to save path:', error);
+    }
+  }
+
+  private async loadSavedPath(): Promise<string | null> {
+    try {
+      // In a real mobile app, this would read from SharedPreferences (Android) or UserDefaults (iOS)
+      if (typeof window !== 'undefined' && window.localStorage) {
+        return window.localStorage.getItem(this.STORAGE_KEY);
+      }
+      return null;
+    } catch (error) {
+      console.error('Failed to load saved path:', error);
+      return null;
+    }
+  }
+
+  private async clearSavedPath(): Promise<void> {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.removeItem(this.STORAGE_KEY);
+      }
+    } catch (error) {
+      console.error('Failed to clear saved path:', error);
+    }
   }
 
   async saveImage(fileName: string, imageData: string): Promise<string> {

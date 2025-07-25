@@ -15,14 +15,14 @@ interface ScrapingControlProps {
 }
 
 export const ScrapingControl = ({ controller, settings, onSettingsClick }: ScrapingControlProps) => {
-  const [status, setStatus] = useState<'running' | 'stopped' | 'processing'>('stopped');
+  const [status, setStatus] = useState<'running' | 'stopped' | 'processing' | 'exited'>('stopped');
   const [queueSize, setQueueSize] = useState(0);
   const [lastProcessed, setLastProcessed] = useState<string>('Never');
   const { toast } = useToast();
 
   useEffect(() => {
     // Set up status monitoring
-    const statusCallback = (newStatus: 'started' | 'stopped' | 'processing' | 'idle') => {
+    const statusCallback = (newStatus: 'started' | 'stopped' | 'processing' | 'idle' | 'exited') => {
       switch (newStatus) {
         case 'started':
           setStatus('running');
@@ -35,6 +35,9 @@ export const ScrapingControl = ({ controller, settings, onSettingsClick }: Scrap
           break;
         case 'idle':
           setStatus('running');
+          break;
+        case 'exited':
+          setStatus('exited');
           break;
       }
     };
@@ -83,11 +86,20 @@ export const ScrapingControl = ({ controller, settings, onSettingsClick }: Scrap
     });
   };
 
+  const handleExit = () => {
+    controller.exitApplication();
+    toast({
+      title: "Application Exited",
+      description: "All background tasks have been stopped",
+    });
+  };
+
   const getStatusColor = () => {
     switch (status) {
       case 'running': return 'bg-success';
       case 'processing': return 'bg-warning';
       case 'stopped': return 'bg-muted';
+      case 'exited': return 'bg-destructive';
       default: return 'bg-muted';
     }
   };
@@ -97,6 +109,7 @@ export const ScrapingControl = ({ controller, settings, onSettingsClick }: Scrap
       case 'running': return 'Active';
       case 'processing': return 'Processing';
       case 'stopped': return 'Stopped';
+      case 'exited': return 'Exited';
       default: return 'Unknown';
     }
   };
@@ -156,35 +169,48 @@ export const ScrapingControl = ({ controller, settings, onSettingsClick }: Scrap
         </div>
 
         {/* Control Buttons */}
-        <div className="flex gap-2">
-          {status === 'stopped' ? (
+        <div className="space-y-2">
+          <div className="flex gap-2">
+            {status === 'stopped' || status === 'exited' ? (
+              <Button 
+                onClick={handleStart} 
+                variant="default" 
+                className="flex-1"
+                disabled={!settings.enabled}
+              >
+                <Play className="h-4 w-4 mr-2" />
+                Start Scraping
+              </Button>
+            ) : (
+              <Button 
+                onClick={handleStop} 
+                variant="destructive" 
+                className="flex-1"
+              >
+                <Pause className="h-4 w-4 mr-2" />
+                Stop Scraping
+              </Button>
+            )}
+            
             <Button 
-              onClick={handleStart} 
-              variant="default" 
-              className="flex-1"
-              disabled={!settings.enabled}
+              onClick={onSettingsClick} 
+              variant="outline" 
+              size="icon"
             >
-              <Play className="h-4 w-4 mr-2" />
-              Start Scraping
+              <Settings className="h-4 w-4" />
             </Button>
-          ) : (
+          </div>
+          
+          {(status === 'running' || status === 'stopped' || status === 'processing') && (
             <Button 
-              onClick={handleStop} 
-              variant="destructive" 
-              className="flex-1"
+              onClick={handleExit} 
+              variant="outline" 
+              className="w-full"
+              size="sm"
             >
-              <Pause className="h-4 w-4 mr-2" />
-              Stop Scraping
+              Exit Application
             </Button>
           )}
-          
-          <Button 
-            onClick={onSettingsClick} 
-            variant="outline" 
-            size="icon"
-          >
-            <Settings className="h-4 w-4" />
-          </Button>
         </div>
 
         {!settings.enabled && (

@@ -37,7 +37,8 @@ export class ScrapingController {
   private intervalId: NodeJS.Timeout | null = null;
   private settings: ScrapingSettings;
   private onArticleProcessed?: (article: NewsArticle) => void;
-  private onStatusChange?: (status: 'started' | 'stopped' | 'processing' | 'idle') => void;
+  private onStatusChange?: (status: 'started' | 'stopped' | 'processing' | 'idle' | 'exited') => void;
+  private backgroundTaskId: string | null = null;
 
   constructor(settings: ScrapingSettings) {
     this.settings = settings;
@@ -67,7 +68,7 @@ export class ScrapingController {
     this.onArticleProcessed = callback;
   }
 
-  setStatusChangeCallback(callback: (status: 'started' | 'stopped' | 'processing' | 'idle') => void): void {
+  setStatusChangeCallback(callback: (status: 'started' | 'stopped' | 'processing' | 'idle' | 'exited') => void): void {
     this.onStatusChange = callback;
   }
 
@@ -118,6 +119,23 @@ export class ScrapingController {
 
     console.log('Scraping stopped');
     this.sendNotification('NewsGen Stopped', 'Background news scraping has been stopped');
+  }
+
+  exitApplication(): void {
+    this.stopScraping();
+    this.onStatusChange?.('exited');
+    
+    // Clear all queued notifications
+    this.clearAllNotifications();
+    
+    // Force cleanup of any remaining background tasks
+    if (this.backgroundTaskId) {
+      // In a real implementation, this would cancel background tasks
+      console.log('Cancelling background task:', this.backgroundTaskId);
+      this.backgroundTaskId = null;
+    }
+    
+    console.log('Application exited - all background tasks stopped');
   }
 
   private async performScrapingCycle(): Promise<void> {
@@ -252,6 +270,15 @@ export class ScrapingController {
       });
     } catch (error) {
       console.error('Failed to send notification:', error);
+    }
+  }
+
+  private async clearAllNotifications(): Promise<void> {
+    try {
+      await LocalNotifications.cancel({ notifications: [] });
+      console.log('All notifications cleared');
+    } catch (error) {
+      console.error('Failed to clear notifications:', error);
     }
   }
 
