@@ -143,6 +143,7 @@ export default {
 				'gradient-success': 'var(--gradient-success)',
 				'gradient-accent': 'var(--gradient-accent)',
 				'gradient-subtle': 'var(--gradient-subtle)',
+				'gradient-hero': 'var(--gradient-hero)',
 			},
 		}
 	},
