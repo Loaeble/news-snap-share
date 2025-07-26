@@ -29,6 +29,7 @@ const defaultSettings: ScrapingSettings = {
   interval: 1,
   maxArticlesPerRun: 10,
   autoGenerate: true,
+  categories: ['technology', 'business', 'sports'],
   sources: [
     { id: '1', name: 'Tech News', url: 'https://example.com/tech', category: 'technology', enabled: true },
     { id: '2', name: 'Business Today', url: 'https://example.com/business', category: 'business', enabled: true },
